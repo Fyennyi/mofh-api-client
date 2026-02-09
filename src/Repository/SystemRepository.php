@@ -10,7 +10,9 @@ use Fyennyi\MofhApi\Exception\MofhException;
 final class SystemRepository implements SystemRepositoryInterface
 {
     public function __construct(
-        private TransportInterface $transport
+        private TransportInterface $transport,
+        private string $apiUser,
+        private string $apiKey
     ) {}
 
     public function getPackages(): array

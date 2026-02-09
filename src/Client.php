@@ -46,7 +46,11 @@ final class Client implements ClientInterface
             $connection->getPassword()
         );
         
-        $this->system = new SystemRepository($transport);
+        $this->system = new SystemRepository(
+            $transport,
+            $connection->getUsername(),
+            $connection->getPassword()
+        );
     }
 
     public function getAccount(): AccountRepositoryInterface

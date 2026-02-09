@@ -69,4 +69,15 @@ final class DomainRepository implements DomainRepositoryInterface
 
         return $domains;
     }
+
+    public function getUserByDomain(string $domain): ?array
+    {
+        $response = $this->transport->request('POST', 'getdomainuser.php', [
+            'api_user' => $this->apiUser,
+            'api_key'  => $this->apiKey,
+            'domain'   => $domain
+        ], 'json');
+
+        return is_array($response) ? $response : null;
+    }
 }

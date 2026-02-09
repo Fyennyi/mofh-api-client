@@ -8,7 +8,8 @@ final class ResponseParser
 {
     /**
      * Normalizes and parses the API response based on format.
-     * * @throws MofhException
+     *
+     * @throws MofhException
      */
     public static function parse(string $content, string $format): mixed
     {

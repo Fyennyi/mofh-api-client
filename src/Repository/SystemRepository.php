@@ -37,4 +37,15 @@ final class SystemRepository implements SystemRepositoryInterface
 
         return (string)($response['version'] ?? 'unknown');
     }
+
+    public function getCnameToken(string $domain): string
+    {
+        $response = $this->transport->request('POST', 'getcname.php', [
+            'api_user' => $this->apiUser, // Required by some system endpoints
+            'api_key'  => $this->apiKey,  // Passed from Client/Connection
+            'domain_name' => $domain
+        ], 'text');
+
+        return trim((string)$response);
+    }
 }

@@ -1,6 +1,6 @@
 {
     "name": "fyennyi/mofh-api-client",
-    "description": "Strict OOP PSR-compliant MyOwnFreeHost API Client",
+    "description": "PSR-compliant MyOwnFreeHost API Client.",
     "type": "library",
     "license": "MIT",
     "autoload": {

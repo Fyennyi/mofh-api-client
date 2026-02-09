@@ -2,6 +2,7 @@
 
 namespace Fyennyi\MofhApi;
 
+use Fyennyi\MofhApi\Contract\ClientInterface;
 use Fyennyi\MofhApi\Contract\Repository\AccountRepositoryInterface;
 use Fyennyi\MofhApi\Contract\Repository\DomainRepositoryInterface;
 use Fyennyi\MofhApi\Contract\Repository\SupportRepositoryInterface;
@@ -11,21 +12,21 @@ use Fyennyi\MofhApi\Repository\DomainRepository;
 use Fyennyi\MofhApi\Repository\SupportRepository;
 use Fyennyi\MofhApi\Repository\SystemRepository;
 use Fyennyi\MofhApi\Transport\HttpTransport;
-use Psr\Http\Client\ClientInterface;
+use Psr\Http\Client\ClientInterface as PsrHttpClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
-final class Client
+final class Client implements ClientInterface
 {
-    public readonly AccountRepositoryInterface $account;
-    public readonly DomainRepositoryInterface $domain;
-    public readonly SupportRepositoryInterface $support;
-    public readonly SystemRepositoryInterface $system;
+    private AccountRepositoryInterface $account;
+    private DomainRepositoryInterface $domain;
+    private SupportRepositoryInterface $support;
+    private SystemRepositoryInterface $system;
 
     public function __construct(
         Connection $connection,
-        ClientInterface $httpClient,
+        PsrHttpClientInterface $httpClient,
         RequestFactoryInterface $requestFactory,
         LoggerInterface $logger = new NullLogger()
     ) {
@@ -33,7 +34,6 @@ final class Client
 
         $this->account = new AccountRepository($transport);
         
-        // Pass credentials explicitly where required by API oddities
         $this->domain = new DomainRepository(
             $transport, 
             $connection->getUsername(), 
@@ -47,5 +47,25 @@ final class Client
         );
         
         $this->system = new SystemRepository($transport);
+    }
+
+    public function getAccount(): AccountRepositoryInterface
+    {
+        return $this->account;
+    }
+
+    public function getDomain(): DomainRepositoryInterface
+    {
+        return $this->domain;
+    }
+
+    public function getSupport(): SupportRepositoryInterface
+    {
+        return $this->support;
+    }
+
+    public function getSystem(): SystemRepositoryInterface
+    {
+        return $this->system;
     }
 }

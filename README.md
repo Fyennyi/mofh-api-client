@@ -16,6 +16,8 @@ A PSR-compliant client for interacting with the MyOwnFreeHost (MOFH) API. This l
 
 ## Installation
 
+You can install the package via Composer:
+
 ```bash
 composer require fyennyi/mofh-api-client
 ```

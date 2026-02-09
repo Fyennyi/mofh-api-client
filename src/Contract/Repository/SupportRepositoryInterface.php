@@ -2,6 +2,8 @@
 
 namespace Fyennyi\MofhApi\Contract\Repository;
 
+use Fyennyi\MofhApi\DTO\Support\TicketReply;
+
 interface SupportRepositoryInterface
 {
     /**

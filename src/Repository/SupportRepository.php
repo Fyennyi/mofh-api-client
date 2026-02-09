@@ -4,6 +4,7 @@ namespace Fyennyi\MofhApi\Repository;
 
 use Fyennyi\MofhApi\Contract\Repository\SupportRepositoryInterface;
 use Fyennyi\MofhApi\Contract\TransportInterface;
+use Fyennyi\MofhApi\DTO\Support\TicketReply;
 use Fyennyi\MofhApi\Exception\MofhException;
 
 final class SupportRepository implements SupportRepositoryInterface
@@ -33,5 +34,28 @@ final class SupportRepository implements SupportRepositoryInterface
 
         $parts = explode(':', $response);
         return (int)trim($parts[1] ?? '0');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function reply(TicketReply $reply): bool
+    {
+        $response = $this->transport->request(
+            'POST', 
+            'supportreplyticket.php', 
+            $reply->toArray($this->apiUser, $this->apiKey), 
+            'text'
+        );
+
+        /**
+         * MOFH typically returns "SUCCESS : Ticket Replied" or similar string.
+         * If the string doesn't contain SUCCESS, we treat it as an API-level error.
+         */
+        if (!str_contains(strtoupper($response), 'SUCCESS')) {
+            throw new MofhException("Failed to reply to ticket #{$reply->ticketId}: " . $response);
+        }
+
+        return true;
     }
 }

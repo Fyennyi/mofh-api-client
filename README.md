@@ -72,6 +72,12 @@ $mofh->account->suspend('hname_12345678', 'Policy violation.');
 // Check if a domain is available
 $isAvailable = $mofh->domain->checkAvailability('test.example.com');
 
+// Get account info by domain name
+$userData = $mofh->domain->getUserByDomain('test.example.com');
+
+// Get CNAME validation token (MD5)
+$token = $mofh->system->getCnameToken('my-new-site.com');
+
 // List available hosting packages
 $packages = $mofh->system->getPackages();
 foreach ($packages as $package) {

@@ -45,6 +45,7 @@ $mofh = new Client($connection, $httpClient, $requestFactory);
 
 ```php
 use Fyennyi\MofhApi\DTO\Account\CreateAccountRequest;
+use Fyennyi\MofhApi\DTO\Support\TicketReply;
 
 // Create a new hosting account
 try {
@@ -58,9 +59,14 @@ try {
 
     $response = $mofh->account->create($request);
     echo "Account created: " . $response->vPanelUsername;
+
 } catch (\Exception $e) {
     echo "Error: " . $e->getMessage();
 }
+
+// Support System: Create and Reply to tickets
+$ticketId = $mofh->support->createTicket('hname_1234', 'Issue', 'Text', 'domain.com');
+$mofh->support->reply(new TicketReply($ticketId, 'My response message'));
 
 // Suspend an account
 $mofh->account->suspend('hname_12345678', 'Policy violation.');

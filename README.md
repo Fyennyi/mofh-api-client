@@ -90,6 +90,18 @@ try {
 - PHP 8.1 or higher.
 - `ext-json` and `ext-simplexml` extensions.
 
+## Contributing
+
+Contributions are welcome and appreciated! Here's how you can contribute:
+
+1. Fork the project
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+Please make sure to update tests as appropriate and adhere to the existing coding style.
+
 ## License
 
 This project is licensed under the MIT License.

@@ -19,4 +19,12 @@ interface SystemRepositoryInterface
      * @return string
      */
     public function getVersion(): string;
+
+    /**
+     * Retrieves the CNAME validation token for a domain.
+     *
+     * @param string $domain
+     * @return string MD5 hash token
+     */
+    public function getCnameToken(string $domain): string;
 }

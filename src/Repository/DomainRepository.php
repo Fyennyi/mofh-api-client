@@ -4,37 +4,69 @@ namespace Fyennyi\MofhApi\Repository;
 
 use Fyennyi\MofhApi\Contract\Repository\DomainRepositoryInterface;
 use Fyennyi\MofhApi\Contract\TransportInterface;
+use Fyennyi\MofhApi\DTO\Domain\UserDomain;
 
 final class DomainRepository implements DomainRepositoryInterface
 {
+    /**
+     * @param TransportInterface $transport
+     * @param string $apiUser MOFH API Username (for legacy compatibility in some endpoints)
+     * @param string $apiKey  MOFH API Key
+     */
     public function __construct(
         private TransportInterface $transport,
-        private string $apiUser, // Required for domain-related calls as per docs
+        private string $apiUser,
         private string $apiKey
     ) {}
 
+    /**
+     * @inheritDoc
+     */
     public function checkAvailability(string $domain): bool
     {
         $response = $this->transport->request('POST', 'checkavailable.php', [
             'api_user' => $this->apiUser,
-            'api_key' => $this->apiKey,
-            'domain' => $domain
+            'api_key'  => $this->apiKey,
+            'domain'   => $domain
         ], 'json');
 
-        // Docs say returns 1 or 0
-        return (string)$response === '1';
+        // MOFH returns '1' if available, '0' or error message if not
+        return (string)($response[0] ?? $response) === '1';
     }
 
+    /**
+     * @inheritDoc
+     * @return UserDomain[]
+     */
     public function getUserDomains(string $username): array
     {
-        $response = $this->transport->request('POST', 'getuserdomains.php', [
+        // MOFH's getuserdomains.php is most reliable via XML
+        $xml = $this->transport->request('POST', 'getuserdomains.php', [
             'api_user' => $this->apiUser,
-            'api_key' => $this->apiKey,
+            'api_key'  => $this->apiKey,
             'username' => $username
-        ], 'xml'); // Using XML endpoint for structured data reliability
+        ], 'xml');
 
-        // Logic to parse XML array to simple array would go here
-        // Simplified for brevity
-        return []; 
+        $domains = [];
+
+        /**
+         * MOFH XML structure for domains usually looks like:
+         * <getuserdomains>
+         * <result>
+         * <item>domain1.com</item>
+         * <item>domain2.com</item>
+         * </result>
+         * </getuserdomains>
+         */
+        if (isset($xml->result->item)) {
+            foreach ($xml->result->item as $item) {
+                $domains[] = new UserDomain(
+                    domain: (string)$item,
+                    username: $username
+                );
+            }
+        }
+
+        return $domains;
     }
 }

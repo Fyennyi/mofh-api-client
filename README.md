@@ -44,8 +44,8 @@ $mofh = new Client($connection, $httpClient, $requestFactory);
 ### Managing Accounts
 
 ```php
-use Fyennyi\MofhApi\DTO\Account\CreateAccountRequest;
-use Fyennyi\MofhApi\DTO\Support\TicketReply;
+use Fyennyi\MofhApi\Dto\Account\CreateAccountRequest;
+use Fyennyi\MofhApi\Dto\Support\TicketReply;
 
 // Create a new hosting account
 try {

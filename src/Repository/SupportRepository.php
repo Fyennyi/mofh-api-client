@@ -4,7 +4,7 @@ namespace Fyennyi\MofhApi\Repository;
 
 use Fyennyi\MofhApi\Contract\Repository\SupportRepositoryInterface;
 use Fyennyi\MofhApi\Contract\TransportInterface;
-use Fyennyi\MofhApi\DTO\Support\TicketReply;
+use Fyennyi\MofhApi\Dto\Support\TicketReply;
 use Fyennyi\MofhApi\Exception\MofhException;
 
 final class SupportRepository implements SupportRepositoryInterface

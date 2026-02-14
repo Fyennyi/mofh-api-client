@@ -1,6 +1,6 @@
 <?php
 
-namespace Fyennyi\MofhApi\DTO\Domain;
+namespace Fyennyi\MofhApi\Dto\Domain;
 
 final readonly class DomainAvailability
 {

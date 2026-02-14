@@ -4,8 +4,8 @@ namespace Fyennyi\MofhApi\Repository;
 
 use Fyennyi\MofhApi\Contract\Repository\AccountRepositoryInterface;
 use Fyennyi\MofhApi\Contract\TransportInterface;
-use Fyennyi\MofhApi\DTO\Account\CreateAccountRequest;
-use Fyennyi\MofhApi\DTO\Account\AccountResponse;
+use Fyennyi\MofhApi\Dto\Account\CreateAccountRequest;
+use Fyennyi\MofhApi\Dto\Account\AccountResponse;
 use Fyennyi\MofhApi\Exception\MofhException;
 
 final class AccountRepository implements AccountRepositoryInterface

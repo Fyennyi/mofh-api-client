@@ -4,7 +4,7 @@ namespace Fyennyi\MofhApi\Repository;
 
 use Fyennyi\MofhApi\Contract\Repository\DomainRepositoryInterface;
 use Fyennyi\MofhApi\Contract\TransportInterface;
-use Fyennyi\MofhApi\DTO\Domain\UserDomain;
+use Fyennyi\MofhApi\Dto\Domain\UserDomain;
 
 final class DomainRepository implements DomainRepositoryInterface
 {

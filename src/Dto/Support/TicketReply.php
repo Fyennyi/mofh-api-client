@@ -1,6 +1,6 @@
 <?php
 
-namespace Fyennyi\MofhApi\DTO\Support;
+namespace Fyennyi\MofhApi\Dto\Support;
 
 final readonly class TicketReply
 {

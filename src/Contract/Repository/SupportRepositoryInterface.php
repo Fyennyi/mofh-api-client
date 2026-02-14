@@ -2,7 +2,7 @@
 
 namespace Fyennyi\MofhApi\Contract\Repository;
 
-use Fyennyi\MofhApi\DTO\Support\TicketReply;
+use Fyennyi\MofhApi\Dto\Support\TicketReply;
 
 interface SupportRepositoryInterface
 {

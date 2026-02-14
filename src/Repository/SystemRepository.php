@@ -4,7 +4,7 @@ namespace Fyennyi\MofhApi\Repository;
 
 use Fyennyi\MofhApi\Contract\Repository\SystemRepositoryInterface;
 use Fyennyi\MofhApi\Contract\TransportInterface;
-use Fyennyi\MofhApi\DTO\System\Package;
+use Fyennyi\MofhApi\Dto\System\Package;
 use Fyennyi\MofhApi\Exception\MofhException;
 
 final class SystemRepository implements SystemRepositoryInterface

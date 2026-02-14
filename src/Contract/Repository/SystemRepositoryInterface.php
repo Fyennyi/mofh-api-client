@@ -2,7 +2,7 @@
 
 namespace Fyennyi\MofhApi\Contract\Repository;
 
-use Fyennyi\MofhApi\DTO\System\Package;
+use Fyennyi\MofhApi\Dto\System\Package;
 
 interface SystemRepositoryInterface
 {

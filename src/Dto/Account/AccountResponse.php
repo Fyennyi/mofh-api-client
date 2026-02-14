@@ -1,6 +1,6 @@
 <?php
 
-namespace Fyennyi\MofhApi\DTO\Account;
+namespace Fyennyi\MofhApi\Dto\Account;
 
 final readonly class AccountResponse
 {

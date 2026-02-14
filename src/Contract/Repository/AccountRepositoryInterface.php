@@ -2,8 +2,8 @@
 
 namespace Fyennyi\MofhApi\Contract\Repository;
 
-use Fyennyi\MofhApi\DTO\Account\CreateAccountRequest;
-use Fyennyi\MofhApi\DTO\Account\AccountResponse;
+use Fyennyi\MofhApi\Dto\Account\CreateAccountRequest;
+use Fyennyi\MofhApi\Dto\Account\AccountResponse;
 
 interface AccountRepositoryInterface
 {

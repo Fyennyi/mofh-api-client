@@ -1,6 +1,6 @@
 <?php
 
-namespace Fyennyi\MofhApi\DTO\System;
+namespace Fyennyi\MofhApi\Dto\System;
 
 final readonly class Package
 {

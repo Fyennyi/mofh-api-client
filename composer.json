@@ -18,7 +18,8 @@
         "ext-simplexml": "*"
     },
     "require-dev": {
-        "guzzlehttp/guzzle": "^7.0 || ^8.0"
+        "guzzlehttp/guzzle": "^7.0 || ^8.0",
+        "phpstan/phpstan": "^2.2"
     },
     "autoload": {
         "psr-4": {

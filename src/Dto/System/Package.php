@@ -20,7 +20,7 @@ final readonly class Package
     /**
      * Factory method to create an object from the raw API array.
      *
-     * @param  array $data Raw data from the API response
+     * @param  array<string, int|string|null> $data Raw data from the API response
      * @return self
      */
     public static function fromArray(array $data) : self
@@ -34,8 +34,8 @@ final readonly class Package
             maxSubdomains: (int)($data['MAXSUB'] ?? 0),
             maxParkedDomains: (int)($data['MAXPARK'] ?? 0),
             maxAddonDomains: (int)($data['MAXADDON'] ?? 0),
-            hasShellAccess: isset($data['HASSHELL']) && 'y' === strtolower($data['HASSHELL']),
-            hasCgi: isset($data['CGI']) && 'y' === strtolower($data['CGI'])
+            hasShellAccess: isset($data['HASSHELL']) && 'y' === strtolower((string)$data['HASSHELL']),
+            hasCgi: isset($data['CGI']) && 'y' === strtolower((string)$data['CGI'])
         );
     }
 }

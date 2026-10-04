@@ -20,11 +20,17 @@ final class ResponseParser
         };
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     private static function parseJson(string $content) : array
     {
         $data = json_decode($content, true);
         if (JSON_ERROR_NONE !== json_last_error()) {
             throw new MofhException("Failed to decode JSON: " . json_last_error_msg());
+        }
+        if (! is_array($data)) {
+            throw new MofhException("JSON response is not an array");
         }
         return $data;
     }

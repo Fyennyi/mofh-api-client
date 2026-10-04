@@ -19,7 +19,7 @@ final readonly class AccountResponse
         $result = $xml->result;
         /** @var \SimpleXMLElement $options */
         $options = $result->options;
-        
+
         $ns = [];
         if (isset($options->nameserver)) {
             $ns[] = (string)$options->nameserver;

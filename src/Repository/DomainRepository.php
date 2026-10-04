@@ -51,7 +51,7 @@ final class DomainRepository implements DomainRepositoryInterface
             'api_key'  => $this->apiKey,
             'username' => $username
         ], 'xml');
-        
+
         if (! $xml instanceof \SimpleXMLElement) {
             throw new \Fyennyi\MofhApi\Exception\MofhException("Expected XML response from getuserdomains.php");
         }
@@ -69,7 +69,7 @@ final class DomainRepository implements DomainRepositoryInterface
          */
         /** @var \SimpleXMLElement $result */
         $result = $xml->result;
-         
+
         if (isset($result->item)) {
             foreach ($result->item as $item) {
                 $domains[] = new UserDomain(

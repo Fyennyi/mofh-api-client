@@ -32,6 +32,8 @@ final class ResponseParser
         if (! is_array($data)) {
             throw new MofhException("JSON response is not an array");
         }
+
+        /** @var array<string, mixed> $data */
         return $data;
     }
 

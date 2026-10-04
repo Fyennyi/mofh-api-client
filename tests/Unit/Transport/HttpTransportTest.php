@@ -7,9 +7,8 @@ namespace Tests\Unit\Transport;
 use Fyennyi\MofhApi\Connection;
 use Fyennyi\MofhApi\Exception\MofhException;
 use Fyennyi\MofhApi\Transport\HttpTransport;
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\HttpFactory;
+use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Client\ClientInterface;
 use Psr\Log\NullLogger;
@@ -62,7 +61,7 @@ class HttpTransportTest extends TestCase
             ->willThrowException(new \Exception('Network error'));
 
         $transport = new HttpTransport($this->connection, $httpClient, $this->factory, $this->logger);
-        
+
         $this->expectException(MofhException::class);
         $this->expectExceptionMessage('Transport error: Network error');
         $transport->request('GET', 'test.php');
@@ -138,7 +137,7 @@ class HttpTransportTest extends TestCase
 
         $transport = new HttpTransport($this->connection, $httpClient, $this->factory, $this->logger);
         $response = $transport->request('GET', 'test.php', [], 'text');
-        
+
         $this->assertSame('plain text response', $response);
     }
 }

@@ -52,7 +52,7 @@ class DomainRepositoryTest extends TestCase
         $this->assertSame('d1.com', $domains[0]->domain);
         $this->assertSame('d2.com', $domains[1]->domain);
     }
-    
+
     public function testGetUserDomainsReturnsEmptyIfNoItems() : void
     {
         $transport = $this->createMock(TransportInterface::class);

@@ -29,7 +29,7 @@ class SupportRepositoryTest extends TestCase
         $transport->expects($this->once())->method('request')->willReturn('ERROR : Failed');
 
         $repo = new SupportRepository($transport, 'user', 'key');
-        
+
         $this->expectException(MofhException::class);
         $this->expectExceptionMessage('Ticket creation failed: ERROR : Failed');
         $repo->createTicket('client1', 'Subj', 'Msg', 'd.com');
@@ -42,7 +42,7 @@ class SupportRepositoryTest extends TestCase
 
         $repo = new SupportRepository($transport, 'user', 'key');
         $reply = new TicketReply(123, 'Message');
-        
+
         $this->assertTrue($repo->reply($reply));
     }
 
@@ -53,7 +53,7 @@ class SupportRepositoryTest extends TestCase
 
         $repo = new SupportRepository($transport, 'user', 'key');
         $reply = new TicketReply(123, 'Message');
-        
+
         $this->expectException(MofhException::class);
         $this->expectExceptionMessage('Failed to reply to ticket #123: FAILED : error');
         $repo->reply($reply);

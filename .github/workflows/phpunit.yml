@@ -19,7 +19,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.5'
-          coverage: none
+          coverage: xdebug
 
       - name: Validate composer.json
         run: composer validate --strict
@@ -35,5 +35,34 @@ jobs:
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress
 
-      - name: Run PHPUnit
-        run: vendor/bin/phpunit --display-warnings
+      - name: Run PHPUnit with coverage
+        run: vendor/bin/phpunit --coverage-clover clover.xml --display-warnings
+        env:
+          XDEBUG_MODE: coverage
+
+      - name: Upload coverage artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: clover-report
+          path: clover.xml
+
+  coverage:
+    needs: tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Download coverage artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: clover-report
+
+      - name: Upload coverage to Codecov
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        if: ${{ env.CODECOV_TOKEN != '' }}
+        continue-on-error: true
+        uses: codecov/codecov-action@v7
+        with:
+          files: clover.xml
+          token: ${{ env.CODECOV_TOKEN }}

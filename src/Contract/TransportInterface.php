@@ -11,7 +11,7 @@ interface TransportInterface
      *
      * @param  string        $method   HTTP Method (GET, POST)
      * @param  string        $endpoint API Endpoint (e.g., 'createacct.php')
-     * @param  array         $data     Request payload
+     * @param  array<string, mixed> $data     Request payload
      * @param  string        $format   Expected response format ('json', 'xml', 'text')
      * @return mixed         Parsed response (array or object)
      * @throws MofhException

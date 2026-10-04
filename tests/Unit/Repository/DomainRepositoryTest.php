@@ -34,6 +34,17 @@ class DomainRepositoryTest extends TestCase
         $this->assertFalse($repo->checkAvailability('example.com'));
     }
 
+    public function testCheckAvailabilityWithScalarResponse() : void
+    {
+        $transport = $this->createMock(TransportInterface::class);
+        $transport->expects($this->once())
+            ->method('request')
+            ->willReturn('1');
+
+        $repo = new DomainRepository($transport, 'user', 'key');
+        $this->assertTrue($repo->checkAvailability('example.com'));
+    }
+
     public function testGetUserDomainsReturnsArray() : void
     {
         $transport = $this->createMock(TransportInterface::class);
@@ -51,6 +62,16 @@ class DomainRepositoryTest extends TestCase
         $this->assertInstanceOf(UserDomain::class, $domains[0]);
         $this->assertSame('d1.com', $domains[0]->domain);
         $this->assertSame('d2.com', $domains[1]->domain);
+    }
+
+    public function testGetUserDomainsThrowsExceptionOnNonXml() : void
+    {
+        $transport = $this->createMock(TransportInterface::class);
+        $transport->expects($this->once())->method('request')->willReturn('invalid');
+
+        $repo = new DomainRepository($transport, 'user', 'key');
+        $this->expectException(\Fyennyi\MofhApi\Exception\MofhException::class);
+        $repo->getUserDomains('u1');
     }
 
     public function testGetUserDomainsReturnsEmptyIfNoItems() : void

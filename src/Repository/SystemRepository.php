@@ -21,14 +21,17 @@ final class SystemRepository implements SystemRepositoryInterface
         // Endpoint: listpkgs.php
         $response = $this->transport->request('GET', 'listpkgs.php', [], 'json');
 
-        if (! isset($response['package']) || ! is_array($response['package'])) {
+        if (! is_array($response) || ! isset($response['package']) || ! is_array($response['package'])) {
             return [];
         }
+
+        /** @var array<array<string, int|string|null>> $packages */
+        $packages = $response['package'];
 
         // Mapping raw array to DTO collection using array_map
         return array_map(
             fn (array $pkgData) => Package::fromArray($pkgData),
-            $response['package']
+            $packages
         );
     }
 
@@ -36,7 +39,11 @@ final class SystemRepository implements SystemRepositoryInterface
     {
         $response = $this->transport->request('GET', 'version.php', [], 'json');
 
-        return (string)($response['version'] ?? 'unknown');
+        if (is_array($response) && isset($response['version']) && is_scalar($response['version'])) {
+            return (string)$response['version'];
+        }
+
+        return 'unknown';
     }
 
     public function getCnameToken(string $domain) : string
@@ -47,6 +54,6 @@ final class SystemRepository implements SystemRepositoryInterface
             'domain_name' => $domain
         ], 'text');
 
-        return trim((string)$response);
+        return trim(is_scalar($response) ? (string)$response : '');
     }
 }

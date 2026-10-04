@@ -31,6 +31,22 @@ class AccountRepositoryTest extends TestCase
         $this->assertSame('b12_123', $response->vPanelUsername);
     }
 
+    public function testCreateThrowsExceptionOnNonXmlResponse() : void
+    {
+        $transport = $this->createMock(TransportInterface::class);
+        $request = new CreateAccountRequest('u1', 'p1', 'e@e.com', 'd.com', 'plan1');
+
+        $transport->expects($this->once())
+            ->method('request')
+            ->willReturn('not an xml');
+
+        $repo = new AccountRepository($transport);
+
+        $this->expectException(\Fyennyi\MofhApi\Exception\MofhException::class);
+        $this->expectExceptionMessage('Expected XML response from createacct.php');
+        $repo->create($request);
+    }
+
     public function testSuspend() : void
     {
         $transport = $this->createMock(TransportInterface::class);

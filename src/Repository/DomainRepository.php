@@ -30,14 +30,18 @@ final class DomainRepository implements DomainRepositoryInterface
             'domain'   => $domain
         ], 'json');
 
-        // MOFH returns '1' if available, '0' or error message if not
-        return '1' === (string)($response[0] ?? $response);
+        if (is_array($response)) {
+            $value = $response[0] ?? '';
+            return '1' === (is_scalar($value) ? (string)$value : '');
+        }
+
+        return '1' === (is_scalar($response) ? (string)$response : '');
     }
 
     /**
      * @inheritDoc
      *
-     * @return UserDomain[]
+     * @return array<int, UserDomain>
      */
     public function getUserDomains(string $username) : array
     {
@@ -47,6 +51,10 @@ final class DomainRepository implements DomainRepositoryInterface
             'api_key'  => $this->apiKey,
             'username' => $username
         ], 'xml');
+        
+        if (! $xml instanceof \SimpleXMLElement) {
+            throw new \Fyennyi\MofhApi\Exception\MofhException("Expected XML response from getuserdomains.php");
+        }
 
         $domains = [];
 
@@ -59,8 +67,11 @@ final class DomainRepository implements DomainRepositoryInterface
          * </result>
          * </getuserdomains>
          */
-        if (isset($xml->result->item)) {
-            foreach ($xml->result->item as $item) {
+        /** @var \SimpleXMLElement $result */
+        $result = $xml->result;
+         
+        if (isset($result->item)) {
+            foreach ($result->item as $item) {
                 $domains[] = new UserDomain(
                     domain: (string)$item,
                     username: $username
@@ -71,6 +82,9 @@ final class DomainRepository implements DomainRepositoryInterface
         return $domains;
     }
 
+    /**
+     * @return array<string, mixed>|null
+     */
     public function getUserByDomain(string $domain) : ?array
     {
         $response = $this->transport->request('POST', 'getdomainuser.php', [
@@ -79,6 +93,11 @@ final class DomainRepository implements DomainRepositoryInterface
             'domain'   => $domain
         ], 'json');
 
-        return is_array($response) ? $response : null;
+        if (is_array($response)) {
+            /** @var array<string, mixed> $response */
+            return $response;
+        }
+
+        return null;
     }
 }

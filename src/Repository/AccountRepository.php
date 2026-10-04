@@ -22,6 +22,10 @@ final class AccountRepository implements AccountRepositoryInterface
             'xml'
         );
 
+        if (! $response instanceof \SimpleXMLElement) {
+            throw new \Fyennyi\MofhApi\Exception\MofhException("Expected XML response from createacct.php");
+        }
+
         return AccountResponse::fromXml($response);
     }
 

@@ -4,6 +4,9 @@ namespace Fyennyi\MofhApi\Dto\Account;
 
 final readonly class AccountResponse
 {
+    /**
+     * @param array<int, string> $nameservers
+     */
     public function __construct(
         public string $vPanelUsername,
         public string $statusMessage,
@@ -12,7 +15,11 @@ final readonly class AccountResponse
 
     public static function fromXml(\SimpleXMLElement $xml) : self
     {
-        $options = $xml->result->options;
+        /** @var \SimpleXMLElement $result */
+        $result = $xml->result;
+        /** @var \SimpleXMLElement $options */
+        $options = $result->options;
+        
         $ns = [];
         if (isset($options->nameserver)) {
             $ns[] = (string)$options->nameserver;
@@ -23,7 +30,7 @@ final readonly class AccountResponse
 
         return new self(
             vPanelUsername: (string)$options->vpusername,
-            statusMessage: (string)$xml->result->statusmsg,
+            statusMessage: (string)$result->statusmsg,
             nameservers: $ns
         );
     }

@@ -20,7 +20,8 @@
     "require-dev": {
         "guzzlehttp/guzzle": "^7.0 || ^8.0",
         "phpstan/phpstan": "^2.2",
-        "friendsofphp/php-cs-fixer": "^3.95"
+        "friendsofphp/php-cs-fixer": "^3.95",
+        "phpunit/phpunit": "^13.4"
     },
     "autoload": {
         "psr-4": {

@@ -33,19 +33,19 @@ final class Client implements ClientInterface
         $transport = new HttpTransport($connection, $httpClient, $requestFactory, $logger);
 
         $this->account = new AccountRepository($transport);
-        
+
         $this->domain = new DomainRepository(
-            $transport, 
-            $connection->getUsername(), 
+            $transport,
+            $connection->getUsername(),
             $connection->getPassword()
         );
-        
+
         $this->support = new SupportRepository(
-            $transport, 
-            $connection->getUsername(), 
+            $transport,
+            $connection->getUsername(),
             $connection->getPassword()
         );
-        
+
         $this->system = new SystemRepository(
             $transport,
             $connection->getUsername(),
@@ -53,22 +53,22 @@ final class Client implements ClientInterface
         );
     }
 
-    public function getAccount(): AccountRepositoryInterface
+    public function getAccount() : AccountRepositoryInterface
     {
         return $this->account;
     }
 
-    public function getDomain(): DomainRepositoryInterface
+    public function getDomain() : DomainRepositoryInterface
     {
         return $this->domain;
     }
 
-    public function getSupport(): SupportRepositoryInterface
+    public function getSupport() : SupportRepositoryInterface
     {
         return $this->support;
     }
 
-    public function getSystem(): SystemRepositoryInterface
+    public function getSystem() : SystemRepositoryInterface
     {
         return $this->system;
     }

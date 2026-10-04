@@ -11,7 +11,7 @@ final class ResponseParser
      *
      * @throws MofhException
      */
-    public static function parse(string $content, string $format): mixed
+    public static function parse(string $content, string $format) : mixed
     {
         return match ($format) {
             'json' => self::parseJson($content),
@@ -20,20 +20,20 @@ final class ResponseParser
         };
     }
 
-    private static function parseJson(string $content): array
+    private static function parseJson(string $content) : array
     {
         $data = json_decode($content, true);
-        if (json_last_error() !== JSON_ERROR_NONE) {
+        if (JSON_ERROR_NONE !== json_last_error()) {
             throw new MofhException("Failed to decode JSON: " . json_last_error_msg());
         }
         return $data;
     }
 
-    private static function parseXml(string $content): \SimpleXMLElement
+    private static function parseXml(string $content) : \SimpleXMLElement
     {
         libxml_use_internal_errors(true);
         $xml = simplexml_load_string($content);
-        if (!$xml) {
+        if (! $xml) {
             throw new MofhException("Failed to parse XML response");
         }
         return $xml;

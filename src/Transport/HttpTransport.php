@@ -4,7 +4,6 @@ namespace Fyennyi\MofhApi\Transport;
 
 use Fyennyi\MofhApi\Connection;
 use Fyennyi\MofhApi\Contract\TransportInterface;
-use Fyennyi\MofhApi\Exception\AuthenticationException;
 use Fyennyi\MofhApi\Exception\MofhException;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
@@ -22,10 +21,10 @@ final class HttpTransport implements TransportInterface
         private LoggerInterface $logger
     ) {}
 
-    public function request(string $method, string $endpoint, array $data = [], string $format = 'json'): mixed
+    public function request(string $method, string $endpoint, array $data = [], string $format = 'json') : mixed
     {
         // Select base URL based on requested format, as MOFH splits endpoints
-        $baseUrl = ($format === 'xml') ? self::BASE_URL_XML : self::BASE_URL_JSON;
+        $baseUrl = ('xml' === $format) ? self::BASE_URL_XML : self::BASE_URL_JSON;
         $uri = $baseUrl . $endpoint;
 
         $this->logger->info("MOFH Request: $method $uri", ['format' => $format]);
@@ -37,7 +36,7 @@ final class HttpTransport implements TransportInterface
                 $this->connection->getUsername() . ':' . $this->connection->getPassword()
             ));
 
-        if ($method === 'POST') {
+        if ('POST' === $method) {
             // MOFH strictly uses form-url-encoded, rarely raw JSON body
             $body = http_build_query($data);
             $request = $request->withHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -57,38 +56,38 @@ final class HttpTransport implements TransportInterface
         return $this->parseResponse($content, $format);
     }
 
-    private function parseResponse(string $content, string $format): mixed
+    private function parseResponse(string $content, string $format) : mixed
     {
-        if (trim($content) === 'null') {
+        if ('null' === trim($content)) {
             return null; // Handle weird null responses
         }
 
         // MOFH always returns 200 OK, so we must inspect body
-        if ($format === 'json') {
+        if ('json' === $format) {
             $json = json_decode($content, true);
-            if (json_last_error() !== JSON_ERROR_NONE) {
-                 // Fallback: Some "JSON" endpoints return XML on error or specific actions
+            if (JSON_ERROR_NONE !== json_last_error()) {
+                // Fallback: Some "JSON" endpoints return XML on error or specific actions
                 if (str_starts_with(trim($content), '<')) {
                     return $this->parseResponse($content, 'xml');
                 }
                 throw new MofhException("JSON Decode Error: " . json_last_error_msg());
             }
             // Check for error inside JSON structure (result -> status)
-            if (isset($json['result'][0]['status']) && (int)$json['result'][0]['status'] === 0) {
-                 $msg = $json['result'][0]['statusmsg'] ?? 'Unknown error';
-                 throw new MofhException("API Error: $msg");
+            if (isset($json['result'][0]['status']) && 0 === (int)$json['result'][0]['status']) {
+                $msg = $json['result'][0]['statusmsg'] ?? 'Unknown error';
+                throw new MofhException("API Error: $msg");
             }
             return $json;
         }
 
-        if ($format === 'xml') {
+        if ('xml' === $format) {
             libxml_use_internal_errors(true);
             $xml = simplexml_load_string($content);
-            if ($xml === false) {
-                 throw new MofhException("XML Parse Error");
+            if (false === $xml) {
+                throw new MofhException("XML Parse Error");
             }
             // Check XML status
-            if (isset($xml->result->status) && (int)$xml->result->status === 0) {
+            if (isset($xml->result->status) && 0 === (int)$xml->result->status) {
                 $msg = (string)$xml->result->statusmsg;
                 throw new MofhException("API Error: $msg");
             }

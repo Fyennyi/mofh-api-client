@@ -9,8 +9,8 @@ use Fyennyi\MofhApi\Contract\Repository\SystemRepositoryInterface;
 
 interface ClientInterface
 {
-    public function getAccount(): AccountRepositoryInterface;
-    public function getDomain(): DomainRepositoryInterface;
-    public function getSupport(): SupportRepositoryInterface;
-    public function getSystem(): SystemRepositoryInterface;
+    public function getAccount() : AccountRepositoryInterface;
+    public function getDomain() : DomainRepositoryInterface;
+    public function getSupport() : SupportRepositoryInterface;
+    public function getSystem() : SystemRepositoryInterface;
 }

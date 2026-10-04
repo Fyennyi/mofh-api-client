@@ -10,8 +10,8 @@ final class DomainRepository implements DomainRepositoryInterface
 {
     /**
      * @param TransportInterface $transport
-     * @param string $apiUser MOFH API Username (for legacy compatibility in some endpoints)
-     * @param string $apiKey  MOFH API Key
+     * @param string             $apiUser   MOFH API Username (for legacy compatibility in some endpoints)
+     * @param string             $apiKey    MOFH API Key
      */
     public function __construct(
         private TransportInterface $transport,
@@ -22,7 +22,7 @@ final class DomainRepository implements DomainRepositoryInterface
     /**
      * @inheritDoc
      */
-    public function checkAvailability(string $domain): bool
+    public function checkAvailability(string $domain) : bool
     {
         $response = $this->transport->request('POST', 'checkavailable.php', [
             'api_user' => $this->apiUser,
@@ -31,14 +31,15 @@ final class DomainRepository implements DomainRepositoryInterface
         ], 'json');
 
         // MOFH returns '1' if available, '0' or error message if not
-        return (string)($response[0] ?? $response) === '1';
+        return '1' === (string)($response[0] ?? $response);
     }
 
     /**
      * @inheritDoc
+     *
      * @return UserDomain[]
      */
-    public function getUserDomains(string $username): array
+    public function getUserDomains(string $username) : array
     {
         // MOFH's getuserdomains.php is most reliable via XML
         $xml = $this->transport->request('POST', 'getuserdomains.php', [
@@ -70,7 +71,7 @@ final class DomainRepository implements DomainRepositoryInterface
         return $domains;
     }
 
-    public function getUserByDomain(string $domain): ?array
+    public function getUserByDomain(string $domain) : ?array
     {
         $response = $this->transport->request('POST', 'getdomainuser.php', [
             'api_user' => $this->apiUser,

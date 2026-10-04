@@ -13,7 +13,7 @@ final readonly class TicketReply
     /**
      * Converts DTO to API-compatible array.
      */
-    public function toArray(string $apiUser, string $apiKey): array
+    public function toArray(string $apiUser, string $apiKey) : array
     {
         return [
             'api_user' => $apiUser,

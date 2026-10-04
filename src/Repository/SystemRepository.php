@@ -5,7 +5,6 @@ namespace Fyennyi\MofhApi\Repository;
 use Fyennyi\MofhApi\Contract\Repository\SystemRepositoryInterface;
 use Fyennyi\MofhApi\Contract\TransportInterface;
 use Fyennyi\MofhApi\Dto\System\Package;
-use Fyennyi\MofhApi\Exception\MofhException;
 
 final class SystemRepository implements SystemRepositoryInterface
 {
@@ -15,32 +14,32 @@ final class SystemRepository implements SystemRepositoryInterface
         private string $apiKey
     ) {}
 
-    public function getPackages(): array
+    public function getPackages() : array
     {
         // Documentation states that the XML endpoint is broken for this specific call,
         // so we enforce JSON format here.
         // Endpoint: listpkgs.php
         $response = $this->transport->request('GET', 'listpkgs.php', [], 'json');
 
-        if (!isset($response['package']) || !is_array($response['package'])) {
+        if (! isset($response['package']) || ! is_array($response['package'])) {
             return [];
         }
 
         // Mapping raw array to DTO collection using array_map
         return array_map(
-            fn(array $pkgData) => Package::fromArray($pkgData),
+            fn (array $pkgData) => Package::fromArray($pkgData),
             $response['package']
         );
     }
 
-    public function getVersion(): string
+    public function getVersion() : string
     {
         $response = $this->transport->request('GET', 'version.php', [], 'json');
 
         return (string)($response['version'] ?? 'unknown');
     }
 
-    public function getCnameToken(string $domain): string
+    public function getCnameToken(string $domain) : string
     {
         $response = $this->transport->request('POST', 'getcname.php', [
             'api_user' => $this->apiUser, // Required by some system endpoints

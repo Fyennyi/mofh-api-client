@@ -11,20 +11,20 @@ interface SystemRepositoryInterface
      *
      * @return Package[]
      */
-    public function getPackages(): array;
+    public function getPackages() : array;
 
     /**
      * Retrieves the MOFH API version.
      *
      * @return string
      */
-    public function getVersion(): string;
+    public function getVersion() : string;
 
     /**
      * Retrieves the CNAME validation token for a domain.
      *
-     * @param string $domain
+     * @param  string $domain
      * @return string MD5 hash token
      */
-    public function getCnameToken(string $domain): string;
+    public function getCnameToken(string $domain) : string;
 }

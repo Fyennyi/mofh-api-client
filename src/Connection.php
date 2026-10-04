@@ -9,12 +9,12 @@ final class Connection
         private string $password
     ) {}
 
-    public function getUsername(): string
+    public function getUsername() : string
     {
         return $this->username;
     }
 
-    public function getPassword(): string
+    public function getPassword() : string
     {
         return $this->password;
     }

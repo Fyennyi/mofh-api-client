@@ -15,7 +15,7 @@ final class SupportRepository implements SupportRepositoryInterface
         private string $apiKey
     ) {}
 
-    public function createTicket(string $clientUsername, string $subject, string $message, string $domain): int
+    public function createTicket(string $clientUsername, string $subject, string $message, string $domain) : int
     {
         $response = $this->transport->request('POST', 'supportnewticket.php', [
             'api_user' => $this->apiUser,
@@ -28,7 +28,7 @@ final class SupportRepository implements SupportRepositoryInterface
         ], 'text');
 
         // Response format: "SUCCESS : 123456"
-        if (!str_contains($response, 'SUCCESS')) {
+        if (! str_contains($response, 'SUCCESS')) {
             throw new MofhException("Ticket creation failed: $response");
         }
 
@@ -39,12 +39,12 @@ final class SupportRepository implements SupportRepositoryInterface
     /**
      * @inheritDoc
      */
-    public function reply(TicketReply $reply): bool
+    public function reply(TicketReply $reply) : bool
     {
         $response = $this->transport->request(
-            'POST', 
-            'supportreplyticket.php', 
-            $reply->toArray($this->apiUser, $this->apiKey), 
+            'POST',
+            'supportreplyticket.php',
+            $reply->toArray($this->apiUser, $this->apiKey),
             'text'
         );
 
@@ -52,7 +52,7 @@ final class SupportRepository implements SupportRepositoryInterface
          * MOFH typically returns "SUCCESS : Ticket Replied" or similar string.
          * If the string doesn't contain SUCCESS, we treat it as an API-level error.
          */
-        if (!str_contains(strtoupper($response), 'SUCCESS')) {
+        if (! str_contains(strtoupper($response), 'SUCCESS')) {
             throw new MofhException("Failed to reply to ticket #{$reply->ticketId}: " . $response);
         }
 

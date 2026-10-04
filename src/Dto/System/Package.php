@@ -20,10 +20,10 @@ final readonly class Package
     /**
      * Factory method to create an object from the raw API array.
      *
-     * @param array $data Raw data from the API response
+     * @param  array $data Raw data from the API response
      * @return self
      */
-    public static function fromArray(array $data): self
+    public static function fromArray(array $data) : self
     {
         return new self(
             name: (string)($data['name'] ?? 'Unknown'),
@@ -34,8 +34,8 @@ final readonly class Package
             maxSubdomains: (int)($data['MAXSUB'] ?? 0),
             maxParkedDomains: (int)($data['MAXPARK'] ?? 0),
             maxAddonDomains: (int)($data['MAXADDON'] ?? 0),
-            hasShellAccess: isset($data['HASSHELL']) && strtolower($data['HASSHELL']) === 'y',
-            hasCgi: isset($data['CGI']) && strtolower($data['CGI']) === 'y'
+            hasShellAccess: isset($data['HASSHELL']) && 'y' === strtolower($data['HASSHELL']),
+            hasCgi: isset($data['CGI']) && 'y' === strtolower($data['CGI'])
         );
     }
 }

@@ -12,7 +12,7 @@ final readonly class CreateAccountRequest
         public string $plan
     ) {}
 
-    public function toArray(): array
+    public function toArray() : array
     {
         return [
             'username' => $this->username,

@@ -130,4 +130,15 @@ class HttpTransportTest extends TestCase
         $this->expectExceptionMessage('XML Parse Error');
         $transport->request('GET', 'test.php', [], 'xml');
     }
+
+    public function testParseResponseText() : void
+    {
+        $httpClient = $this->createMock(ClientInterface::class);
+        $httpClient->expects($this->once())->method('sendRequest')->willReturn(new Response(200, [], 'plain text response'));
+
+        $transport = new HttpTransport($this->connection, $httpClient, $this->factory, $this->logger);
+        $response = $transport->request('GET', 'test.php', [], 'text');
+        
+        $this->assertSame('plain text response', $response);
+    }
 }

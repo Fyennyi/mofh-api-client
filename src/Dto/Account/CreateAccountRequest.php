@@ -12,6 +12,9 @@ final readonly class CreateAccountRequest
         public string $plan
     ) {}
 
+    /**
+     * @return array<string, string>
+     */
     public function toArray() : array
     {
         return [

@@ -23,6 +23,13 @@ class ResponseParserTest extends TestCase
         ResponseParser::parse('invalid json', 'json');
     }
 
+    public function testParseJsonThrowsOnScalar() : void
+    {
+        $this->expectException(MofhException::class);
+        $this->expectExceptionMessage('JSON response is not an array');
+        ResponseParser::parse('"scalar string"', 'json');
+    }
+
     public function testParseXmlSuccess() : void
     {
         $data = ResponseParser::parse('<root><key>value</key></root>', 'xml');

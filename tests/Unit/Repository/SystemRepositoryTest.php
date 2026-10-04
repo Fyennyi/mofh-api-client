@@ -43,6 +43,15 @@ class SystemRepositoryTest extends TestCase
         $this->assertSame('1.2.3', $repo->getVersion());
     }
 
+    public function testGetVersionReturnsUnknownIfInvalid() : void
+    {
+        $transport = $this->createMock(TransportInterface::class);
+        $transport->expects($this->once())->method('request')->willReturn('not_an_array');
+
+        $repo = new SystemRepository($transport, 'user', 'key');
+        $this->assertSame('unknown', $repo->getVersion());
+    }
+
     public function testGetCnameTokenReturnsToken() : void
     {
         $transport = $this->createMock(TransportInterface::class);

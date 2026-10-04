@@ -27,12 +27,14 @@ final class SupportRepository implements SupportRepositoryInterface
             'ipaddress' => '127.0.0.1' // Should be passed from request context
         ], 'text');
 
+        $responseStr = is_scalar($response) ? (string)$response : '';
+
         // Response format: "SUCCESS : 123456"
-        if (! str_contains($response, 'SUCCESS')) {
-            throw new MofhException("Ticket creation failed: $response");
+        if (! str_contains($responseStr, 'SUCCESS')) {
+            throw new MofhException("Ticket creation failed: $responseStr");
         }
 
-        $parts = explode(':', $response);
+        $parts = explode(':', $responseStr);
         return (int)trim($parts[1] ?? '0');
     }
 
@@ -48,12 +50,14 @@ final class SupportRepository implements SupportRepositoryInterface
             'text'
         );
 
+        $responseStr = is_scalar($response) ? (string)$response : '';
+
         /**
          * MOFH typically returns "SUCCESS : Ticket Replied" or similar string.
          * If the string doesn't contain SUCCESS, we treat it as an API-level error.
          */
-        if (! str_contains(strtoupper($response), 'SUCCESS')) {
-            throw new MofhException("Failed to reply to ticket #{$reply->ticketId}: " . $response);
+        if (! str_contains(strtoupper($responseStr), 'SUCCESS')) {
+            throw new MofhException("Failed to reply to ticket #{$reply->ticketId}: " . $responseStr);
         }
 
         return true;

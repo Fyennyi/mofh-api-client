@@ -21,6 +21,9 @@ final class HttpTransport implements TransportInterface
         private LoggerInterface $logger
     ) {}
 
+    /**
+     * @param array<string, mixed> $data
+     */
     public function request(string $method, string $endpoint, array $data = [], string $format = 'json') : mixed
     {
         // Select base URL based on requested format, as MOFH splits endpoints
@@ -73,9 +76,16 @@ final class HttpTransport implements TransportInterface
                 throw new MofhException("JSON Decode Error: " . json_last_error_msg());
             }
             // Check for error inside JSON structure (result -> status)
-            if (isset($json['result'][0]['status']) && 0 === (int)$json['result'][0]['status']) {
-                $msg = $json['result'][0]['statusmsg'] ?? 'Unknown error';
-                throw new MofhException("API Error: $msg");
+            if (is_array($json) && isset($json['result']) && is_array($json['result'])) {
+                $resultObj = $json['result'][0] ?? null;
+                if (is_array($resultObj)) {
+                    $status = $resultObj['status'] ?? null;
+                    if (is_scalar($status) && 0 === (int)$status) {
+                        $statusMsg = $resultObj['statusmsg'] ?? 'Unknown error';
+                        $msg = is_scalar($statusMsg) ? (string)$statusMsg : 'Unknown error';
+                        throw new MofhException("API Error: $msg");
+                    }
+                }
             }
             return $json;
         }

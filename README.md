@@ -3,7 +3,7 @@
 [![Latest Stable Version](https://img.shields.io/packagist/v/fyennyi/mofh-api-client.svg?label=Packagist&logo=packagist)](https://packagist.org/packages/fyennyi/mofh-api-client)
 [![Total Downloads](https://img.shields.io/packagist/dt/fyennyi/mofh-api-client.svg?label=Downloads&logo=packagist)](https://packagist.org/packages/fyennyi/mofh-api-client)
 [![License](https://img.shields.io/packagist/l/fyennyi/mofh-api-client.svg?label=Licence&logo=open-source-initiative)](https://packagist.org/packages/fyennyi/mofh-api-client)
-[![PHP Unit Tests](https://github.com/Fyennyi/mofh-api-client/actions/workflows/phpunit.yml/badge.svg)](https://github.com/Fyennyi/mofh-api-client/actions/workflows/phpunit.yml)
+[![Tests](https://img.shields.io/github/actions/workflow/status/Fyennyi/mofh-api-client/phpunit.yml?label=Tests&logo=github)](https://github.com/Fyennyi/mofh-api-client/actions/workflows/phpunit.yml)
 [![Test Coverage](https://img.shields.io/codecov/c/github/Fyennyi/mofh-api-client?label=Test%20Coverage&logo=codecov)](https://app.codecov.io/gh/Fyennyi/mofh-api-client)
 [![Static Analysis](https://img.shields.io/github/actions/workflow/status/Fyennyi/mofh-api-client/phpstan.yml?label=PHPStan&logo=github)](https://github.com/Fyennyi/mofh-api-client/actions/workflows/phpstan.yml)
 

@@ -12,6 +12,8 @@ final readonly class TicketReply
 
     /**
      * Converts DTO to API-compatible array.
+     *
+     * @return array<string, int|string>
      */
     public function toArray(string $apiUser, string $apiKey) : array
     {
